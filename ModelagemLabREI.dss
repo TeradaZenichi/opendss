@@ -1,0 +1,36 @@
+Set DefaultBaseFreq=60
+
+!! Equivalente de Thèvenin
+New Circuit.Circuito bus1=bus_001.1.2.3 basekV=0.22
+
+!! Dados dos cabos e geometria das linhas
+New WireData.Fios Rdc=0.52 Rac=0.63 Runits=km Radius=3.338 Radunits=mm
+New LineSpacing.N1 Nconds=3 Nphases=3 Units=cm X=[-120.00  0.00  60.00] H=[ 1000.00  1000.00  1000.00]
+New LineGeometry.Geometria  Nconds=3  Spacing=N1 Wires=[Fios, Fios, Fios] Reduce=n'
+
+!! Linhas
+New Line.Line_001_002 bus1=bus_001 bus2=bus_002 Length=25 Units=m Geometry=Geometria phases=3
+!!New Line.Line_002_load bus1=bus_002 bus2=bus_021 Length=0.01 Units=m Geometry=Geometria phases=3
+!!New Line.Line_002_pv bus1=bus_002 bus2=bus_022 Length=0.01 Units=m Geometry=Geometria phases=3
+!!New Line.Line_002_bess bus1=bus_002 bus2=bus_023 Length=0.01 Units=m Geometry=Geometria phases=3
+New Line.Line_002_003 bus1=bus_002 bus2=bus_003 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_003_004 bus1=bus_003 bus2=bus_004 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_004_005 bus1=bus_004 bus2=bus_005 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_005_006 bus1=bus_005 bus2=bus_006 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_006_007 bus1=bus_006 bus2=bus_007 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_007_008 bus1=bus_007 bus2=bus_008 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_008_009 bus1=bus_008 bus2=bus_009 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_009_010 bus1=bus_009 bus2=bus_010 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_010_011 bus1=bus_010 bus2=bus_011 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_011_012 bus1=bus_011 bus2=bus_012 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_012_013 bus1=bus_012 bus2=bus_013 Length=25 Units=m Geometry=Geometria phases=3
+
+
+!! Outras informações
+MakeBusList
+Set VoltageBases = [.22]
+CalcVoltageBases
+
+Set maxiterations = 500
+set mode=snap
+!! Solve
