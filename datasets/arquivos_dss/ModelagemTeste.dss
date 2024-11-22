@@ -1,0 +1,60 @@
+Set DefaultBaseFrequency=60 
+
+!! Equivalente de Thèvenin 
+New Circuit.ModelagemTeste bus1=bus_001.1.2.3 basekV=0.22 
+
+!! Dados dos cabos e geometria das linhas
+New WireData.Fios Rdc=0.52 Rac=0.63 Runits=km Radius=3.338 Radunits=mm 
+New LineSpacing.N1 Nconds=3 Nphases=3 Units=cm X=[-120.0  0.0  60.0] H=[ 1000.0  1000.0  1000.0] 
+New LineGeometry.Geometria  Nconds=3  Spacing=N1 Wires=[Fios, Fios, Fios] Reduce=n' 
+
+!! Linhas
+New Line.Line_001_002 Bus1=bus_001 Bus2=bus_002 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_002_003 Bus1=bus_002 Bus2=bus_003 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_003_004 Bus1=bus_003 Bus2=bus_004 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_004_005 Bus1=bus_004 Bus2=bus_005 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_005_006 Bus1=bus_005 Bus2=bus_006 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_006_007 Bus1=bus_006 Bus2=bus_007 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_007_008 Bus1=bus_007 Bus2=bus_008 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_008_009 Bus1=bus_008 Bus2=bus_009 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_009_010 Bus1=bus_009 Bus2=bus_010 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_010_011 Bus1=bus_010 Bus2=bus_011 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_011_012 Bus1=bus_011 Bus2=bus_012 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_012_013 Bus1=bus_012 Bus2=bus_013 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_013_014 Bus1=bus_013 Bus2=bus_014 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_014_015 Bus1=bus_014 Bus2=bus_015 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_015_016 Bus1=bus_015 Bus2=bus_016 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_016_017 Bus1=bus_016 Bus2=bus_017 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_017_018 Bus1=bus_017 Bus2=bus_018 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_018_019 Bus1=bus_018 Bus2=bus_019 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_019_020 Bus1=bus_019 Bus2=bus_020 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_020_021 Bus1=bus_020 Bus2=bus_021 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_021_022 Bus1=bus_021 Bus2=bus_022 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_022_023 Bus1=bus_022 Bus2=bus_023 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_023_024 Bus1=bus_023 Bus2=bus_024 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_024_025 Bus1=bus_024 Bus2=bus_025 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_025_026 Bus1=bus_025 Bus2=bus_026 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_026_027 Bus1=bus_026 Bus2=bus_027 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_027_028 Bus1=bus_027 Bus2=bus_028 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_028_029 Bus1=bus_028 Bus2=bus_029 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_029_030 Bus1=bus_029 Bus2=bus_030 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_030_031 Bus1=bus_030 Bus2=bus_031 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_031_032 Bus1=bus_031 Bus2=bus_032 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_032_033 Bus1=bus_032 Bus2=bus_033 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_033_034 Bus1=bus_033 Bus2=bus_034 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_034_035 Bus1=bus_034 Bus2=bus_035 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_035_036 Bus1=bus_035 Bus2=bus_036 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_036_037 Bus1=bus_036 Bus2=bus_037 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_037_038 Bus1=bus_037 Bus2=bus_038 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_038_039 Bus1=bus_038 Bus2=bus_039 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_039_040 Bus1=bus_039 Bus2=bus_040 Length=25 Units=m Geometry=Geometria phases=3
+New Line.Line_040_041 Bus1=bus_040 Bus2=bus_041 Length=25 Units=m Geometry=Geometria phases=3
+    
+!! Outras informações
+MakeBusList
+Set VoltageBases = [.22]
+CalcVoltageBases
+
+Set maxiterations = 500
+set mode=snap
+!! Solve
