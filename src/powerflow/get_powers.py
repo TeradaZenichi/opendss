@@ -1,11 +1,20 @@
 # Get the power flow in branchs 
-import pandas
+import pandas as pd
 
-def get_dist_power(column, i, power_df, loads, distgen):
-
+def get_dist_power(column, i, power_df, loads):
+  
   bus_to_search = []
-  for load in loads:    bus_to_search.append([load, loads[load]['bus'].split('.', 1)[0], loads[load]['power']*loads[load]['profile'][0][i], loads[load]['power']*loads[load]['profile'][1][i]])
-  for gen in distgen:   bus_to_search.append([gen,  distgen[gen]['bus'].split('.', 1)[0], distgen[gen]['power']*distgen[gen]['profile'][0][i], distgen[gen]['power']*distgen[gen]['profile'][1][i]])
+  for load in loads:
+     loads[load]['profile']['datetime'] = pd.to_datetime(loads[load]['profile']['datetime'])
+     Ppower = loads[load]['profile'][loads[load]['profile']['datetime'] == i]['Ppower'].values[0]
+     Qpower = loads[load]['profile'][loads[load]['profile']['datetime'] == i]['Qpower'].values[0]
+     bus_to_search.append([load, loads[load]['bus'].split('.', 1)[0], loads[load]['power']*Ppower, loads[load]['power']*Qpower])  
+
+#   for gen in distgen:   
+#      distgen[gen]['profile']['datetime'] = pd.to_datetime(distgen[gen]['profile']['datetime'])
+#      Ppower = distgen[gen]['profile'][distgen[gen]['profile']['datetime'] == i]['Ppower'].values[0]
+#      Qpower = distgen[gen]['profile'][distgen[gen]['profile']['datetime'] == i]['Qpower'].values[0]
+#      bus_to_search.append([gen,  distgen[gen]['bus'].split('.', 1)[0], distgen[gen]['power']*Ppower, distgen[gen]['power']*Qpower])
   # for bess in distbess: bus_to_search.append([bess, distbess[bess]['bus'].split('.', 1)[0], distbess[bess]['power']*distbess[bess]['profile'][0][i], distbess[bess]['power']*distbess[bess]['profile'][1][i]])
 
   # print(bus_to_search)

@@ -22,3 +22,5 @@ data = pd.read_csv(power)
 data['datetime'] = pd.to_datetime(data['datetime'])
 data.to_csv(dir_pv + 'dados_power_normalizado.csv', index=False)
 
+
+
