@@ -1,14 +1,16 @@
 # Get the power flow in branchs 
 import pandas as pd
 
-def get_dist_power(column, i, power_df, loads):
+def get_dist_power(column, i, power_df, buses):
   
   bus_to_search = []
-  for load in loads:
-     loads[load]['profile']['datetime'] = pd.to_datetime(loads[load]['profile']['datetime'])
-     Ppower = loads[load]['profile'][loads[load]['profile']['datetime'] == i]['Ppower'].values[0]
-     Qpower = loads[load]['profile'][loads[load]['profile']['datetime'] == i]['Qpower'].values[0]
-     bus_to_search.append([load, loads[load]['bus'].split('.', 1)[0], loads[load]['power']*Ppower, loads[load]['power']*Qpower])  
+  for bus in buses.keys():
+     loads = buses[bus].keys()
+     for load in loads:
+      buses[bus][load]['profile']['datetime'] = pd.to_datetime(buses[bus][load]['profile']['datetime'])
+      Ppower = buses[bus][load]['profile'][buses[bus][load]['profile']['datetime'] == i]['Ppower'].values[0]
+      Qpower = buses[bus][load]['profile'][buses[bus][load]['profile']['datetime'] == i]['Qpower'].values[0]
+      bus_to_search.append([bus, buses[bus][load]['power']*Ppower, buses[bus][load]['power']*Qpower])  
 
 #   for gen in distgen:   
 #      distgen[gen]['profile']['datetime'] = pd.to_datetime(distgen[gen]['profile']['datetime'])
@@ -26,11 +28,11 @@ def get_dist_power(column, i, power_df, loads):
       # print('bus')
       # print(bus[0], bus[1])
 
-      flow_in  = power_df.index[power_df['bus_2'] == bus[1]].tolist()
+      flow_in  = power_df.index[power_df['bus_2'] == bus[0]].tolist()
       # print('flow in\n',flow_in)
       # Tratar flow in para ver se tem algum nó
 
-      flow_out = power_df.index[power_df['bus_1'] == bus[1]].tolist()
+      flow_out = power_df.index[power_df['bus_1'] == bus[0]].tolist()
       # print('flow out\n',flow_out)
       # Tratar flow out para ver se tem algum nó
 
@@ -47,9 +49,36 @@ def get_dist_power(column, i, power_df, loads):
 
 
 
-      node_power_df = pd.concat([node_power_df, pd.DataFrame([[i, bus[0], P_node, Q_node, bus[2], bus[3]]], columns=column)])
+      node_power_df = pd.concat([node_power_df, pd.DataFrame([[i, bus[0], P_node, Q_node, bus[1], bus[2]]], columns=column)])
 
       # print(bus[0], '// P: ', P_node, '// Q: ', Q_node)
 
   # display(node_power_df)
+  return node_power_df
+
+
+def get_bus_power(datetime,column,buses,dss):
+
+  node_power_df = pd.DataFrame(columns = column)
+
+  bus_data = []
+  
+  for bus in buses.keys():
+    dss.Circuit.SetActiveBus(bus)
+
+    # Obter as tensões no barramento (em magnitude e ângulo)
+    voltages = dss.Bus.VMagAngle()
+    voltage_phases = len(voltages) // 2  # Cada par (mag, ang) é uma fase
+    voltage_magnitudes = voltages[0::2]  # Apenas magnitudes
+    voltage_angles = voltages[1::2]     # Apenas ângulos
+
+    # Potências vêm em pares [P1, Q1, P2, Q2, ..., Pn, Qn]
+    powers = dss.CktElement.Powers() if dss.CktElement.Name() else []
+    active_powers = powers[0::2] if powers else [0]  # Apenas potências ativas (P)
+    reactive_powers = powers[1::2] if powers else [0]  # Apenas potências reativas (Q)
+
+    bus_data.append([datetime,bus, sum(active_powers), sum(reactive_powers), sum(voltage_magnitudes)])
+  
+  node_power_df = pd.concat([node_power_df, pd.DataFrame(bus_data, columns=column)])
+
   return node_power_df
