@@ -13,12 +13,12 @@ def add_LoadToBus(dict_bus,bus,name, phases, base_kv, base_power, dir_profile):
 
 
 # Add loads in timestep i for a loop operation in OpenDSS
-def add_load(i, name, bus, phases, kV, kW, profile, model=8, classe=1, vminpu=0.92, ZIPV=(0.5, 0, 0.5, 1, 0, 0, 0.5)):
+def add_load(i, name, bus, phases, kV, profile, model=8, classe=1, vminpu=0.92, ZIPV=(0.5, 0, 0.5, 1, 0, 0, 0.5)):
   # Conectada em estrela
   profile['datetime'] = pd.to_datetime(profile['datetime'])
   Ppower = profile[profile['datetime'] == i]['Ppower'].values[0]
   Qpower = profile[profile['datetime'] == i]['Qpower'].values[0]
-  new_load = f"New Load.{name} bus1={bus}.1.2 Phases={phases} kV={kV} kW={kW*Ppower:.2f} kVAr={kW*Qpower:.2f} Model={model} Class={classe} Vminpu={vminpu} ZIPV={ZIPV}"
+  new_load = f"New Load.Load_{name}_{bus} bus1={bus}.1.2 Phases={phases} kV={kV} kW={Ppower} kVAr={Qpower} Model={model} Class={classe} Vminpu={vminpu} ZIPV={ZIPV}"
 
   return new_load
 

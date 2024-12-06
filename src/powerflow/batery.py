@@ -11,3 +11,14 @@ def distbess_dictionary(bus, phases, base_kv, base_power, dir_profile):
           'conn': 'delta'
       }
   return distbess
+
+def add_battery(buses,dss):
+    bess_name = f"Bess_{buses[3]}"
+    # dss.Command(
+    #         f"New Load.{bess_name} bus1={buses[3]} Phases=3 kV=0.22 kW=-5 kVAr=0 "
+    #     )
+    # Documentation of comand in https://opendss.epri.com/Properties5.html
+    dss.Command(
+        f"New Storage.{bess_name} bus1={buses[3]} Phases=3 kV=0.22 kW=5 kWhRated=10 %stored=100 %EffCharge=95 %EffDischarge=95 " # kW>0: charging, kW<0: discharging 
+    )
+    print(f"Bess added to bus: {buses[3]}")
