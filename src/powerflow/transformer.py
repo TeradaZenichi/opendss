@@ -1,4 +1,4 @@
-def add_transformer(dss, bus1, bus2, phases, kV, kVA, XHL, XHT, XLT, R, conn='wye'):
+def add_transformer(dss, bus1, bus2, phases, kV, kVA, XHL, conn='wye'):
 
     # Default transformer with 2 windings
     # More information of parameters in https://opendss.epri.com/Properties16.html

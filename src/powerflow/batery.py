@@ -18,7 +18,7 @@ def add_battery(buses,dss):
     #         f"New Load.{bess_name} bus1={buses[3]} Phases=3 kV=0.22 kW=-5 kVAr=0 "
     #     )
     # Documentation of comand in https://opendss.epri.com/Properties5.html
-    dss.Command(
-        f"New Storage.{bess_name} bus1={buses[3]} Phases=3 kV=0.22 kW=5 kWhRated=10 %stored=100 %EffCharge=95 %EffDischarge=95 " # kW>0: charging, kW<0: discharging 
-    )
+    new_bat = f"New Storage.{bess_name} bus1={buses[3]} Phases=3 kV=0.22 kW=5 kWhRated=10 %stored=100 %EffCharge=95 %EffDischarge=95 %reserve=20 " # kW>0: charging, kW<0: discharging 
+    
+    dss.Command(new_bat)       
     print(f"Bess added to bus: {buses[3]}")

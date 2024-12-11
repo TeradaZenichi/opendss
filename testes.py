@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import opendssdirect as dss
 from powerflow.bus import bus_dictionary
-from powerflow.batery import distbess_dictionary
+from powerflow.batery import distbess_dictionary,add_battery
 from powerflow.generators import distgen_dictionary,add_gd
 from powerflow.get_powers import get_bus_power,display_branch_flows
 from powerflow.load import add_LoadToBus,add_load
@@ -84,7 +84,7 @@ for i in range(3):
     name = profiles[i].replace('.csv','')
     add_LoadToBus(buses,bus,name,2,0.22,1000,dir_cargas+profiles[i])
 
-print(buses)
+# print(buses)
 
 
 #Initiate the Power Flow
@@ -104,7 +104,8 @@ node_power_df1 = pd.DataFrame(columns=column_node_power)
 
 range_time = pd.date_range('2012-07-06 12:00:00', periods=0.5*60/intervalo, freq=str(intervalo)+'T')
 for time in range_time:
-
+  
+  print(f"\n\nTime: {time}")
   dss.Basic.ClearAll()
   dss.Basic.Start(0)
   dss.Command(f"Compile {opendssmodel}")
@@ -116,13 +117,16 @@ for time in range_time:
       carga = buses[bus][load]
       new_command = add_load(time,load,bus, carga['phases'],carga['voltage'], carga['profile'])
       dss.Command(new_command)
+
+  buses = dss.Circuit.AllBusNames()
+  add_battery(buses,dss)
   
   dss.Solution.Solve()  # Solve the power flow
   # Display bus voltages
   voltages = dss.Circuit.AllBusVMag()
     
   print("\nBus Phase Voltages (V):")
-  for bus, voltage in zip(buses.keys(), voltages):
+  for bus, voltage in zip(buses, voltages):
       print(f"{bus}: {voltage:.4f}")
 
   # Display powers at buses

@@ -18,7 +18,8 @@ def add_load(i, name, bus, phases, kV, profile, model=8, classe=1, vminpu=0.92, 
   profile['datetime'] = pd.to_datetime(profile['datetime'])
   Ppower = profile[profile['datetime'] == i]['Ppower'].values[0]
   Qpower = profile[profile['datetime'] == i]['Qpower'].values[0]
-  new_load = f"New Load.Load_{name}_{bus} bus1={bus}.1.2 Phases={phases} kV={kV} kW={Ppower} kVAr={Qpower} Model={model} Class={classe} Vminpu={vminpu} ZIPV={ZIPV}"
+  # new_load = f"New Load.Load_{name}_{bus} bus1={bus}.1.2 Phases={phases} kV={kV} kW={Ppower} kVAr={Qpower} Model={model} Class={classe} Vminpu={vminpu} ZIPV={ZIPV}"
+  new_load = f"New Load.Load_{name}_{bus} bus1={bus}.1.2 Phases={phases} kV={kV} kW=5 kVAr=0 Model={model} Class={classe} Vminpu={vminpu} ZIPV={ZIPV}"
 
   return new_load
 
